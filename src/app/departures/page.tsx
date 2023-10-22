@@ -5,6 +5,7 @@ import { z } from "zod";
 import { fromZodError } from "zod-validation-error";
 
 import { Station } from "./components/Station";
+import { stat } from "fs";
 
 export default async function Page({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
   const coordinateSchema = z.object({
@@ -20,11 +21,13 @@ export default async function Page({ searchParams }: { searchParams: { [key: str
 
   if (!parsedInput.success) {
     const errorMessage = fromZodError(parsedInput.error);
+    console.warn("Input Error", errorMessage.message);
     return <p>{errorMessage.toString()}</p>;
   }
+  const { latitude, longitude, distance } = parsedInput.data;
+  console.info("Parsed URL Params: lat", latitude, "lon" + longitude, "dist" + distance);
 
   const hafasClient = createClient(rmvProfile, "ansg.hoy+hafasClientApp@gmail.com");
-  const { latitude, longitude, distance } = parsedInput.data;
 
   const hafasLocation: HafasLocation = {
     latitude,
@@ -33,7 +36,7 @@ export default async function Page({ searchParams }: { searchParams: { [key: str
   };
 
   const stations = await hafasClient.nearby(hafasLocation, { distance });
-
+  console.info("successful Hafas-Nearby Response with " + stations.length + " results");
   return (
     <Suspense fallback={<p>loading...</p>}>
       <ul>{stations.map((station) => station.id && station.name && <Station key={station.id} hafasClient={hafasClient} stationId={station.id} stationName={station.name} />)}</ul>
