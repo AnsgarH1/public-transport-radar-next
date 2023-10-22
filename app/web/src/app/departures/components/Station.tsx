@@ -8,6 +8,7 @@ export const Station = async ({ stationId, stationName, hafasClient }: { station
     duration: 30,
   });
 
+  console.info("successful Hafas-Departures Response for " + stationName + " with " + results.departures.length + " results");
   return (
     <Suspense fallback={<p>lade {stationName}</p>}>
       <h3 className="text-lg font-semibold p-2   bg-slate-300 border-y ">{stationName}</h3>
