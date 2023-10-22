@@ -54,7 +54,7 @@ export async function GET(request: NextRequest) {
     try {
       const adress = await getAdressFromCoords({ latitude, longitude });
       if (adress?.status !== 200) {
-        console.error("GMaps Reverse GeoCode Error", adress?.statusText);
+        console.error("GMaps Reverse GeoCode Error", adress?.statusText, adress?.status, adress?.headers);
         return NextResponse.json("internal server error", { status: 500 });
       }
       const adresses = adress?.data.results.map((result) => result.formatted_address);
