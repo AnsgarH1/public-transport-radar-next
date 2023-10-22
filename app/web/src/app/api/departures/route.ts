@@ -44,7 +44,7 @@ export async function GET(request: NextRequest) {
       };
 
       const stations = await hafasClient.nearby(hafasLocation, { distance });
-
+      console.info("found Stations:" + stations.length);
       return NextResponse.json(stations, {
         status: 200,
       });
