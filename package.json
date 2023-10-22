@@ -2,8 +2,5 @@
   "workspaces": [
     "app/*",
     "packages/*"
-  ],
-  "devDependencies": {
-    "@types/hafas-client": "^6.1.4"
-  }
+  ]
 }
