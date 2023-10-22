@@ -27,7 +27,7 @@ export const Adress = async ({ latitude, longitude }: { latitude: number; longit
 
   return (
     <Suspense>
-      <div className="bg-slate-200">{adress && <p className="text-xs text-center p-2">Ergebnisse für {adress}</p>}</div>
+      <div className="bg-slate-200 dark:bg-slate-900">{adress && <p className="text-xs text-center p-2">Ergebnisse für {adress}</p>}</div>
     </Suspense>
   );
 };

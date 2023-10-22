@@ -26,7 +26,7 @@ export const Departure = ({ departure }: { departure: Alternative }) => {
   if (when && plannedWhen && line) {
     const { delay, displayDepartureTime } = getDepartureTimes(new Date(when), new Date(plannedWhen));
     return (
-      <div className=" bg-slate-100 odd:bg-slate-200 last:border-none py-1">
+      <div className=" bg-slate-100 dark:bg-slate-900 odd:dark:bg-slate-800 odd:bg-slate-200 last:border-none py-1">
         <div className="flex justify-between items-center  ">
           <span className="mx-2">
             {platform && <span className="text-xs italic">Steig/Gleis {platform}</span>}
@@ -49,7 +49,7 @@ export const Departure = ({ departure }: { departure: Alternative }) => {
               hide={toggleRemarks}
             />
           ) : (
-            <button className="border border-gray-800 text-xs p-0.5 ml-2 mb-1 rounded" onClick={toggleRemarks}>
+            <button className="border border-gray-800 dark:border-gray-500 text-xs p-0.5 ml-2 mb-1 rounded" onClick={toggleRemarks}>
               Infos
             </button>
           ))}
