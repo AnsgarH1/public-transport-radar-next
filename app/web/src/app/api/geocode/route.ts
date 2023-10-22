@@ -6,6 +6,28 @@ import type { NextRequest } from "next/server";
 import { z } from "zod";
 import { fromZodError } from "zod-validation-error";
 
+import { Client as GMapsClient, LatLng } from "@googlemaps/google-maps-services-js";
+
+async function getAdressFromCoords(latlng: LatLng) {
+  const googleMapsApiKey = process.env.GOOGLE_MAPS_API_KEY;
+  console.log("google maps trying to load", googleMapsApiKey);
+  if (googleMapsApiKey) {
+    try {
+      const gmapsClient = new GMapsClient({});
+      const result = await gmapsClient.reverseGeocode({
+        params: {
+          key: googleMapsApiKey,
+          latlng,
+        },
+      });
+      console.log("GMaps result", result);
+      return result;
+    } catch (error) {
+      console.error("GMaps Error" + error);
+    }
+  }
+}
+
 export async function GET(request: NextRequest) {
   const urlParams = request.nextUrl.searchParams;
   const coordinateSchema = z.object({
@@ -30,21 +52,14 @@ export async function GET(request: NextRequest) {
     const { latitude, longitude } = parsedInput.data;
     console.info("Parsed URL Params: lat", latitude, "lon" + longitude);
     try {
-      const googleMapsUri = process.env.GOOGLE_MAPS_GEOCODE_API;
-      const googleMapsApiKey = process.env.GOOGLE_MAPS_API_KEY;
-
-      if (!googleMapsApiKey || !googleMapsUri) {
-        console.error("Google Maps environment variables not set!!");
+      const adress = await getAdressFromCoords({ latitude, longitude });
+      if (adress?.status !== 200) {
+        console.error("GMaps Reverse GeoCode Error", adress?.statusText);
         return NextResponse.json("internal server error", { status: 500 });
       }
-      const url = new URL(googleMapsUri);
-      url.searchParams.append("latlng", latitude + "," + longitude);
-      url.searchParams.append("key", googleMapsApiKey);
-      const result = await fetch(url);
-      const data = result.json();
-
+      const adresses = adress?.data.results.map((result) => result.formatted_address);
       return NextResponse.json(
-        { data },
+        { adresses },
         {
           status: 200,
         }
