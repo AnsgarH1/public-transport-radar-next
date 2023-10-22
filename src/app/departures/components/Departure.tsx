@@ -25,7 +25,7 @@ export const Departure = ({ departure }: { departure: Alternative }) => {
   if (when && plannedWhen && line) {
     const { delay, displayDepartureTime } = getDepartureTimes(new Date(when), new Date(plannedWhen));
     return (
-      <div className="max-w-xl border-b border-dotted last:border:none py-1">
+      <div className=" border-b border-dotted last:border:none py-1">
         <div className="flex justify-between items-center  ">
           <span className="mx-2">
             {platform && <span className="text-xs italic">Steig/Gleis {platform}</span>}
