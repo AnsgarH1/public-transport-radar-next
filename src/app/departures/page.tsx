@@ -5,7 +5,6 @@ import { z } from "zod";
 import { fromZodError } from "zod-validation-error";
 
 import { Station } from "./components/Station";
-import { stat } from "fs";
 
 export default async function Page({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
   const coordinateSchema = z.object({
