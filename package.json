@@ -3,5 +3,8 @@
     "app/*",
     "packages/*"
   ],
-  "devDependencies": {}
+  "devDependencies": {},
+  "dependencies": {
+    "@googlemaps/google-maps-services-js": "^3.3.41"
+  }
 }
