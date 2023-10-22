@@ -9,7 +9,6 @@ import { profile as rmvProfile } from "hafas-client/p/rmv";
 
 export async function GET(request: NextRequest) {
   const urlParams = request.nextUrl.searchParams;
-  console.log(urlParams.entries());
   const coordinateSchema = z.object({
     latitude: z.string().transform((input) => Number.parseFloat(input)),
     longitude: z.string().transform((input) => Number.parseFloat(input)),
@@ -35,18 +34,23 @@ export async function GET(request: NextRequest) {
   } else {
     const { latitude, longitude, distance } = parsedInput.data;
     console.info("Parsed URL Params: lat", latitude, "lon" + longitude, "dist" + distance);
+    try {
+      const hafasClient = createClient(rmvProfile, "ansg.hoy+hafasClientApp@gmail.com");
+      console.info("Hafas Client created");
+      const hafasLocation: HafasLocation = {
+        latitude,
+        longitude,
+        type: "location",
+      };
 
-    const hafasClient = createClient(rmvProfile, "ansg.hoy+hafasClientApp@gmail.com");
+      const stations = await hafasClient.nearby(hafasLocation, { distance });
 
-    const hafasLocation: HafasLocation = {
-      latitude,
-      longitude,
-      type: "location",
-    };
-
-    const stations = await hafasClient.nearby(hafasLocation, { distance });
-    return NextResponse.json(stations, {
-      status: 200,
-    });
+      return NextResponse.json(stations, {
+        status: 200,
+      });
+    } catch (error) {
+      console.error("Unexpected Error:", error);
+      return NextResponse.json(error, { status: 500 });
+    }
   }
 }
