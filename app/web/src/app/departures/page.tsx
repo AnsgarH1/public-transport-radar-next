@@ -62,9 +62,7 @@ export default async function Page({ searchParams }: { searchParams: { [key: str
   return (
     <Suspense fallback={<p>loading...</p>}>
       <main className="h-screen overflow-y-auto">
-        <div className="bg-slate-200">
-          <p className="text-xs text-center p-2">Ergebnisse für {adress}</p>
-        </div>
+        <div className="bg-slate-200">{adress && <p className="text-xs text-center p-2">Ergebnisse für {adress}</p>}</div>
         <ul>{stations.map((station) => station.id && station.name && <Station key={station.id} hafasClient={hafasClient} stationId={station.id} stationName={station.name} />)}</ul>
       </main>
     </Suspense>
