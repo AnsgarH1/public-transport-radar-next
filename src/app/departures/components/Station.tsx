@@ -11,7 +11,7 @@ export const Station = async ({ stationId, stationName, hafasClient }: { station
   console.info("successful Hafas-Departures Response for " + stationName + " with " + results.departures.length + " results");
   return (
     <Suspense fallback={<p>lade {stationName}</p>}>
-      <h3 className="bold text-lg p-2 mb-1 border-y ">{stationName}</h3>
+      <h3 className="text-lg font-semibold p-2   bg-slate-300 border-y ">{stationName}</h3>
       <ul>
         {results.departures.length ? (
           results.departures.map((departure) => <Departure departure={departure} key={departure.tripId} />)

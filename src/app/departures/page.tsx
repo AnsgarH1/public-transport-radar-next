@@ -39,7 +39,9 @@ export default async function Page({ searchParams }: { searchParams: { [key: str
   console.info("successful Hafas-Nearby Response with " + stations.length + " results");
   return (
     <Suspense fallback={<p>loading...</p>}>
-      <ul>{stations.map((station) => station.id && station.name && <Station key={station.id} hafasClient={hafasClient} stationId={station.id} stationName={station.name} />)}</ul>
+      <main className="h-screen overflow-y-auto">
+        <ul>{stations.map((station) => station.id && station.name && <Station key={station.id} hafasClient={hafasClient} stationId={station.id} stationName={station.name} />)}</ul>
+      </main>
     </Suspense>
   );
 }
