@@ -20,7 +20,7 @@ const RemarksInfo = ({ remarks, hide }: { remarks: (string | undefined)[]; hide:
 
 export const Departure = ({ departure }: { departure: Alternative }) => {
   const [showRemarks, toggleRemarks] = useReducer((curr) => !curr, false);
-  const { line, platform, destination, cancelled, when, plannedWhen, remarks, direction, tripId } = departure;
+  const { line, platform, destination, cancelled, when, plannedWhen, remarks } = departure;
 
   if (when && plannedWhen && line) {
     const { delay, displayDepartureTime } = getDepartureTimes(new Date(when), new Date(plannedWhen));
