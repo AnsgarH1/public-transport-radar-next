@@ -5,6 +5,7 @@
   ],
   "devDependencies": {},
   "dependencies": {
-    "@googlemaps/google-maps-services-js": "^3.3.41"
+    "@googlemaps/google-maps-services-js": "^3.3.41",
+    "react-loading-skeleton": "^3.3.1"
   }
 }

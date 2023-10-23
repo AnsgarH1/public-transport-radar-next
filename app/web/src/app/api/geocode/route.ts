@@ -10,7 +10,6 @@ import { Client as GMapsClient, LatLng } from "@googlemaps/google-maps-services-
 
 async function getAdressFromCoords(latlng: LatLng) {
   const googleMapsApiKey = process.env.GOOGLE_MAPS_API_KEY;
-  console.log("google maps trying to load", googleMapsApiKey);
   if (googleMapsApiKey) {
     try {
       const gmapsClient = new GMapsClient({});
@@ -20,11 +19,12 @@ async function getAdressFromCoords(latlng: LatLng) {
           latlng,
         },
       });
-      console.log("GMaps result", result);
       return result;
     } catch (error) {
       console.error("GMaps Error" + error);
     }
+  } else {
+    console.error("no google Maps Api Key found!");
   }
 }
 
@@ -50,7 +50,7 @@ export async function GET(request: NextRequest) {
     );
   } else {
     const { latitude, longitude } = parsedInput.data;
-    console.info("Parsed URL Params: lat", latitude, "lon" + longitude);
+
     try {
       const adress = await getAdressFromCoords({ latitude, longitude });
       if (adress?.status !== 200) {

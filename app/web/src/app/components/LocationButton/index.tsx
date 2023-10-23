@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { Button } from "./Button";
 
 type AdressApiReturnType = { adresses: string[] };
 
@@ -55,9 +54,13 @@ export const LocationButton = () => {
 
   return (
     <div>
-      <Button disabled={!position} onClick={() => navigateToDepartures()}>
+      <button
+        className={`${position ? "bg-blue-500 hover:bg-blue-700  text-white" : "bg-gray-500"} text-gray-50 font-bold py-2 px-4 rounded`}
+        disabled={!position}
+        onClick={() => navigateToDepartures()}
+      >
         Get Departures!
-      </Button>
+      </button>
       {position?.coords ? (
         <p className="italic">
           Found position! <br />

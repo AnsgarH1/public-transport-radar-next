@@ -2,10 +2,15 @@ import { Suspense } from "react";
 import { z } from "zod";
 import { fromZodError } from "zod-validation-error";
 
-import { Station } from "./components/Station";
+import { StationDepartures } from "./components/StationDepartures";
 import { createClient, Location as HafasLocation } from "hafas-client";
 import { profile as rmvProfile } from "hafas-client/p/rmv";
-import { Adress } from "./components/Adress";
+
+import { Adress } from "./components/Adress/Adress";
+import { AdressSkeleton } from "./components/Adress/loading";
+
+import { StationDeparturesSkeleton } from "./components/StationDepartures/loading";
+import { DepartureSkeleton } from "./components/Departure/loading";
 
 export default async function Page({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
   const coordinateSchema = z.object({
@@ -35,13 +40,44 @@ export default async function Page({ searchParams }: { searchParams: { [key: str
   };
 
   const stations = await hafasClient.nearby(hafasLocation, { distance });
-
   return (
-    <Suspense fallback={<p>loading...</p>}>
-      <main className="h-screen overflow-y-auto">
+    <main className="h-screen overflow-y-auto">
+      <Suspense fallback={<AdressSkeleton />}>
         <Adress latitude={latitude} longitude={longitude} />
-        <ul>{stations.map((station) => station.id && station.name && <Station key={station.id} hafasClient={hafasClient} stationId={station.id} stationName={station.name} />)}</ul>
-      </main>
-    </Suspense>
+      </Suspense>
+      <Suspense
+        fallback={
+          <ul>
+            <StationDeparturesSkeleton />
+            <StationDeparturesSkeleton />
+            <StationDeparturesSkeleton />
+          </ul>
+        }
+      >
+        <ul>
+          {stations.map(
+            (station) =>
+              station.id &&
+              station.name && (
+                <Suspense
+                  key={station.id}
+                  fallback={
+                    <section>
+                      <h3 className="text-lg font-semibold p-2   bg-slate-300 dark:bg-slate-900 border-y ">{station.name}</h3>
+                      <ul>
+                        <DepartureSkeleton />
+                        <DepartureSkeleton />
+                        <DepartureSkeleton />
+                      </ul>
+                    </section>
+                  }
+                >
+                  <StationDepartures key={station.id} hafasClient={hafasClient} stationId={station.id} stationName={station.name} />
+                </Suspense>
+              )
+          )}
+        </ul>
+      </Suspense>
+    </main>
   );
 }
