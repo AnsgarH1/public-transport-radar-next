@@ -21,7 +21,7 @@ const getDepartureTimes = (when: Date | null, plannedWhen: Date) => {
     if (delta >= 1 && delta < 15) {
       return `in ${roundedDelta} Min.`;
     } else if (delta < 1 && delta >= 0) {
-      return `weniger als 1 Minute`;
+      return `< 1 Minute`;
     } else {
       return `${dt.toLocaleString(DateTime.TIME_24_SIMPLE)}`;
     }

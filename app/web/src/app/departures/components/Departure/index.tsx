@@ -28,15 +28,15 @@ export const Departure = ({ departure }: { departure: Alternative }) => {
     return (
       <div className=" bg-slate-100 dark:bg-slate-900 odd:dark:bg-slate-800 odd:bg-slate-200 last:border-none py-1">
         <div className="flex justify-between items-center  ">
-          <span className="mx-2">
+          <div className="mx-2">
             {platform && <span className="text-xs italic">Steig/Gleis {platform}</span>}
-            <p className={cancelled ? "line-through " : ""}>
-              {line?.name} <span className="text-xs text-ellipsis ">{destination?.name} </span>
+            <p className={cancelled ? "line-through line-clamp-1" : "line-clamp-1"}>
+              {line?.name} <span className="text-xs text-ellipsis  overflow-hidden ">{destination?.name} </span>
             </p>
-          </span>
-          <span className="mx-2">
-            <p className="text-xs text-end">{delay} Min. verspätet</p>
-            <p className="text-end ">{displayDepartureTime}</p>
+          </div>
+          <span className="mx-2  min-w-fit ">
+            {delay !== "0" && <p className="text-xs text-end ">{delay} Min. verspätet</p>}
+            <p className="text-end font-bold ">{displayDepartureTime}</p>
           </span>
         </div>
         {!!remarks?.length &&
