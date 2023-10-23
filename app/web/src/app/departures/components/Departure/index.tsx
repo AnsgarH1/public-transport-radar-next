@@ -1,7 +1,7 @@
 "use client";
 import { Alternative } from "hafas-client";
 import { getDepartureTimes } from "./getDeparturesTimes";
-import { useReducer } from "react";
+import ScrollRemark from "@/app/components/ScrollRemark";
 
 const RemarksInfo = ({ remarks, hide }: { remarks: { text?: string; summary?: string }[]; hide: () => void }) => {
   return (
@@ -20,39 +20,26 @@ const RemarksInfo = ({ remarks, hide }: { remarks: { text?: string; summary?: st
 };
 
 export const Departure = ({ departure }: { departure: Alternative }) => {
-  const [showRemarks, toggleRemarks] = useReducer((curr) => !curr, false);
   const { line, platform, destination, cancelled, when, plannedWhen, remarks } = departure;
 
   if (when && plannedWhen && line) {
     const { delay, displayDepartureTime } = getDepartureTimes(new Date(when), new Date(plannedWhen));
     return (
-      <div className=" bg-slate-100 dark:bg-slate-900 odd:dark:bg-slate-800 odd:bg-slate-200 last:border-none py-1">
-        <div className="flex justify-between items-center  ">
-          <div className="mx-2">
+      <div className=" bg-slate-100 dark:bg-slate-900 odd:dark:bg-slate-800 odd:bg-slate-200 p-2">
+        <div className="flex justify-between items-end  ">
+          <div className="flex-1 overflow-hidden  ">
+            {remarks && <ScrollRemark remarks={remarks.map((remark) => ({ text: remark.text, summary: remark.summary }))} />}
             {platform && <span className="text-xs italic">Steig/Gleis {platform}</span>}
             <p className={cancelled ? "line-through line-clamp-1" : "line-clamp-1"}>
-              {line?.name} <span className="text-xs text-ellipsis  overflow-hidden ">{destination?.name} </span>
+              <span className="font-semibold"> {line?.name} </span>
+              <span className="text-ellipsis  overflow-hidden ">{destination?.name} </span>
             </p>
           </div>
-          <span className="mx-2  min-w-fit ">
+          <div className=" min-w-max ">
             {delay !== "0" && <p className="text-xs text-end ">{delay} Min. verspätet</p>}
-            <p className="text-end font-bold ">{displayDepartureTime}</p>
-          </span>
+            <p className="text-end font-semibold ">{displayDepartureTime}</p>
+          </div>
         </div>
-        {!!remarks?.length &&
-          (showRemarks ? (
-            <RemarksInfo
-              remarks={remarks.map((remark) => ({
-                text: remark.text,
-                summary: remark.summary,
-              }))}
-              hide={toggleRemarks}
-            />
-          ) : (
-            <button className="border border-gray-800 dark:border-gray-500 text-xs p-0.5 ml-2 mb-1 rounded" onClick={toggleRemarks}>
-              Infos
-            </button>
-          ))}
       </div>
     );
   } else {

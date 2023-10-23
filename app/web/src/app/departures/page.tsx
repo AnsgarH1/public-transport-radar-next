@@ -68,6 +68,19 @@ export default async function Page({ searchParams }: { searchParams: { [key: str
                         <DepartureSkeleton />
                         <DepartureSkeleton />
                         <DepartureSkeleton />
+                        <DepartureSkeleton />
+                        <DepartureSkeleton />
+                        <DepartureSkeleton />
+                        <DepartureSkeleton />
+                        <DepartureSkeleton />
+                        <DepartureSkeleton />
+                        <DepartureSkeleton />
+                        <DepartureSkeleton />
+                        <DepartureSkeleton />
+                        <DepartureSkeleton />
+                        <DepartureSkeleton />
+                        <DepartureSkeleton />
+                        <DepartureSkeleton />
                       </ul>
                     </section>
                   }

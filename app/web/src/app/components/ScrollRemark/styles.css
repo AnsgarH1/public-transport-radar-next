@@ -1,0 +1,25 @@
+.scroll-container {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.scroll-items {
+  display: flex;
+  animation-name: infiniteScroll;
+  animation-duration: var(--scroll-speed);
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes infiniteScroll {
+  from {
+    transform: translateX(0px);
+  }
+  to {
+    transform: translateX(calc(var(--translationWidth) * -1));
+  }
+}
+
+.scroll-text {
+  white-space: nowrap;
+}

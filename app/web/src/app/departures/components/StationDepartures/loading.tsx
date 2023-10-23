@@ -14,6 +14,16 @@ export function StationDeparturesSkeleton() {
       <DepartureSkeleton />
       <DepartureSkeleton />
       <DepartureSkeleton />
+      <DepartureSkeleton />
+      <DepartureSkeleton />
+      <DepartureSkeleton />
+      <DepartureSkeleton />
+      <DepartureSkeleton />
+      <DepartureSkeleton />
+      <DepartureSkeleton />
+      <DepartureSkeleton />
+      <DepartureSkeleton />
+      <DepartureSkeleton />
     </div>
   );
 }
