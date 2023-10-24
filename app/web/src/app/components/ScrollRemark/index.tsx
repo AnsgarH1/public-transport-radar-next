@@ -21,13 +21,15 @@ const ScrollRemark = ({ remarks }: { remarks: { text?: string; summary?: string 
     <div className="scroll-container ">
       <div className="scroll-items" style={{ "--scroll-speed": SPEED_FACTOR + "s", "--translationWidth": itemWidth } as CSSProperties}>
         <div className="scroll-text text-xs italic ">
-          {remarks.map(({ summary, text }, index) => (
-            <>
-              {summary && <span className="font-semibold">{summary}: </span>}
-              {text && <span className="font-mono">{text}</span>}
-              {" --- "}
-            </>
-          ))}
+          {remarks
+            .filter(({ text }) => text !== "Geringe Belegung ab diesem Halt erwartet" && text !== "Geringe Belegung")
+            .map(({ summary, text }, index) => (
+              <>
+                {summary && <span className="font-semibold">{summary}: </span>}
+                {text && <span className="font-mono">{text}</span>}
+                {" --- "}
+              </>
+            ))}
         </div>
         <div className="scroll-text text-xs italic" ref={scrollableItemRef}>
           &nbsp;
