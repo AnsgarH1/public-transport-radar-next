@@ -28,7 +28,13 @@ export const Departure = ({ departure }: { departure: Alternative }) => {
       <div className=" bg-slate-100 dark:bg-slate-900 odd:dark:bg-slate-800 odd:bg-slate-200 p-2">
         <div className="flex justify-between items-end  ">
           <div className="flex-1 overflow-hidden  ">
-            {remarks && <ScrollRemark remarks={remarks.map((remark) => ({ text: remark.text, summary: remark.summary }))} />}
+            {remarks && (
+              <ScrollRemark
+                remarks={remarks
+                  .filter(({ text }) => text !== "Geringe Belegung ab diesem Halt erwartet" && text !== "Geringe Belegung")
+                  .map((remark) => ({ text: remark.text, summary: remark.summary }))}
+              />
+            )}
             {platform && <span className="text-xs italic">Steig/Gleis {platform}</span>}
             <p className={cancelled ? "line-through line-clamp-1" : "line-clamp-1"}>
               <span className="font-semibold"> {line?.name} </span>
